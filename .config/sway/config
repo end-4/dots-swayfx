@@ -1,0 +1,124 @@
+# common stuff
+set $Super Mod4
+set $SLURP_COMMAND "$(slurp -d -c f8daeeBB -b 55405044 -s 00000000)"
+
+# auto startup
+xwayland enable
+exec autotiling
+exec swww init
+exec ags -b swayfx -c ~/.config/ags_swayfx/config.js
+exec fcitx5
+exec dbus-update-activation-environment --all
+exec /usr/bin/gnome-keyring-daemon --start --components=secrets
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec swayidle -w timeout 300 'swaylock -f' before-sleep 'swaylock -f'
+exec swayidle -w timeout 450 'pidof java || systemctl suspend'
+exec wl-paste --watch cliphist store
+exec wl-paste -p --watch wl-copy -p ""
+
+# shortcut stuff
+bindsym $Super+T exec foot
+bindsym $Super+E exec nautilus --new-window
+bindsym $Super+Return exec foot
+bindsym Control+$Super+Slash exec pkill anyrun || anyrun
+bindsym $Super+W exec thorium-browser
+bindsym $Super+L exec swaylock
+bindsym $Super+Shift+L exec swaylock & sleep 0.1 && systemctl suspend
+
+# utils
+# Screenshot, Record, OCR, Color picker, Clipboard history
+bindsym $Super+Shift+Alt+S exec grim -g $SLURP_COMMAND - | swappy -f -
+bindsym Print             exec grim - | wl-copy
+bindsym $Super+Shift+S     exec grim -g $SLURP_COMMAND - | wl-copy
+bindsym $Super+Alt+R       exec ~/.config/ags/scripts/record-script.sh
+bindsym Control+Alt+R     exec ~/.config/ags/scripts/record-script.sh --fullscreen
+bindsym $Super+Shift+Alt+R exec ~/.config/ags/scripts/record-script.sh --fullscreen-sound
+bindsym $Super+Shift+C     exec hyprpicker -a
+bindsym $Super+V           exec pkill fuzzel || cliphist list | fuzzel --no-fuzzy --dmenu | cliphist decode | wl-copy
+
+# input stuff
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+input type:touchpad {
+    accel_profile adaptive
+    natural_scroll enabled
+    scroll_method two_finger
+    tap enabled
+    scroll_factor 0.5
+}
+input type:keyboard {
+    repeat_delay 250
+    repeat_rate 35
+    xkb_numlock enabled
+}
+
+# decoration stuff
+gaps outer 5
+gaps inner 4
+default_border pixel 1
+seat seat0 xcursor_theme Bibata-Modern-Classic 24
+
+# Material, purple      Border    BG        Text    Indicator
+client.focused          #554050FF #554050FF #161616 #554050FF
+client.urgent           #EF6896FF #EF6896FF #161616 #EF6896FF
+client.focused_inactive #100D10FF #100D10FF #EAE0E4 #100D10FF
+client.unfocused        #100D10FF #100D10FF #EAE0E4 #100D10FF
+
+# swayfx stuff
+corner_radius 15
+blur off
+blur_passes 3
+blur_radius 8
+shadows on
+shadow_offset 0 0
+shadow_blur_radius 0
+shadow_color #000000FF
+shadow_inactive_color #000000B0
+layer_effects session blur enable
+
+# window stuff
+bindsym $Super+BTN_LEFT floating toggle
+floating_modifier $Super normal
+bindsym $Super+Alt+space floating toggle
+bindsym $Super+q kill
+bindsym $Super+Left focus left
+bindsym $Super+Down focus down
+bindsym $Super+Up focus up
+bindsym $Super+Right focus right
+bindsym $Super+Shift+Left move left
+bindsym $Super+Shift+Down move down
+bindsym $Super+Shift+Up move up
+bindsym $Super+Shift+Right move right
+bindsym $Super+F fullscreen toggle
+
+# workspace stuff
+bindsym $Super+Next workspace next
+bindsym $Super+Prior workspace prev
+bindsym Mod4+Control+Next workspace next 
+bindsym Mod4+Control+Prior workspace prev
+bindsym Mod4+Shift+Next  move container to workspace next
+bindsym Mod4+Shift+Prior move container to workspace prev
+bindsym $Super+1 workspace number 1
+bindsym $Super+2 workspace number 2
+bindsym $Super+3 workspace number 3
+bindsym $Super+4 workspace number 4
+bindsym $Super+5 workspace number 5
+bindsym $Super+6 workspace number 6
+bindsym $Super+7 workspace number 7
+bindsym $Super+8 workspace number 8
+bindsym $Super+9 workspace number 9
+bindsym $Super+0 workspace number 10
+bindsym $Super+Alt+1 move container to workspace number 1
+bindsym $Super+Alt+2 move container to workspace number 2
+bindsym $Super+Alt+3 move container to workspace number 3
+bindsym $Super+Alt+4 move container to workspace number 4
+bindsym $Super+Alt+5 move container to workspace number 5
+bindsym $Super+Alt+6 move container to workspace number 6
+bindsym $Super+Alt+7 move container to workspace number 7
+bindsym $Super+Alt+8 move container to workspace number 8
+bindsym $Super+Alt+9 move container to workspace number 9
+bindsym $Super+Alt+0 move container to workspace number 10
+
+# sway stuff
+bindsym $Super+Shift+r reload
+
