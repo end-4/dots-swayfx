@@ -21,7 +21,6 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec swayidle -w timeout 300 'swaylock -f' before-sleep 'swaylock -f'
 exec swayidle -w timeout 450 'pidof java || systemctl suspend'
 exec wl-paste --watch cliphist store
-exec wl-paste -p --watch wl-copy -p ""
 
 # Essentials
 ## Shell (AGS)
